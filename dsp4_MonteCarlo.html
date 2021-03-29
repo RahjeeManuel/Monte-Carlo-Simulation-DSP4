@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>DS and A II Project 4</title></head><body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" alink="#0000ff" link="#0000ff" vlink="#551a8b">
+<center>
+<p style="margin-top: 0pt; margin-bottom: 0pt;"><b>University of West Florida</b> <br> <b>Department of Computer Science</b> <br> <b>Data Structures and Algorithms II</b></p>
+<p style="margin-top: 0pt; margin-bottom: 0pt;"><b>Probabilistic Algorithms&nbsp;Project</b></p>
+</center>
+<p style="margin-top: 0pt; margin-bottom: 0pt;">&nbsp;</p>
+<p style="margin-top: 0pt; margin-bottom: 0pt;"><b>Project Description</b></p>
+<p style="margin-top: 0pt; margin-bottom: 0pt;"></p>
+<p style="margin-top: 0pt; margin-bottom: 0pt;">The goals of this project are to:<b><br> </b></p>
+<ul>
+<li>
+<p style="margin-top: 0pt; margin-bottom: 0pt;">implement&nbsp;two types of probabilistic algorithms</p>
+</li>
+<li>observe how expected results compare to observed results</li>
+</ul>
+<p>Develop and test a program that implements the bad microchip problem and a simulation based upon probability distributions.</p>
+<p>For the first part, the idea is that some batches of micro-chips might not
+be tested, and the goal is to detect bad batches without testing all
+the chips in the batch. We will be simulating the process of sampling
+chips from a collection of batches of chips.</p>
+<p style="margin-top: 0px; margin-bottom: 0px;"><span style="font-weight: bold;">Part 1a:</span> Generate data sets.</p>
+<p style="margin-top: 0px; margin-bottom: 0px;">Automate creation of <em>what would otherwise be</em>
+a user-specified number of datasets with a user-specified number of
+batches, batch size, percentage&nbsp;of the datasets containing bad
+chips, and percentage of bad chips in a dataset.</p>
+<p style="margin-top: 0px; margin-bottom: 0px;">When the program runs, it will automatically read four (4) test files titled <span style="font-family: monospace;">t1.txt, t2.txt, t3.txt, </span>and <span style="font-family: monospace;">t4.txt, </span>containing
+specs for each run, simulating how the program would work if it were
+getting these parameters interactively from the user. These
+configuration files should have the following values written as
+integers, one per row:</p>
+<p></p>
+<table style="text-align: left; width: 731px; height: 172px;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top; text-align: center;">Specification</td>
+<td style="vertical-align: top; text-align: center;">t1.txt</td>
+<td style="vertical-align: top; text-align: center;">t2.txt</td>
+<td style="vertical-align: top; text-align: center;">t3.txt</td>
+<td style="vertical-align: top; text-align: center;">t4.txt</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><span style="font-family: monospace;">Number of batches of items</span></td>
+<td style="vertical-align: top; text-align: right;">200</td>
+<td style="vertical-align: top; text-align: right;">200</td>
+<td style="vertical-align: top; text-align: right;">200</td>
+<td style="vertical-align: top; text-align: right;">200</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><span style="font-family: monospace;">Number of items in each batch</span></td>
+<td style="vertical-align: top; text-align: right;">1000</td>
+<td style="vertical-align: top; text-align: right;">1000</td>
+<td style="vertical-align: top; text-align: right;">1000</td>
+<td style="vertical-align: top; text-align: right;">1000</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><span style="font-family: monospace;">Percentage of batches containing bad items</span></td>
+<td style="vertical-align: top; text-align: right;">25</td>
+<td style="vertical-align: top; text-align: right;">10</td>
+<td style="vertical-align: top; text-align: right;">10</td>
+<td style="vertical-align: top; text-align: right;">10</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><span style="font-family: monospace;">Percentage of items that are bad in a bad&nbsp;batch</span></td>
+<td style="vertical-align: top; text-align: right;">15</td>
+<td style="vertical-align: top; text-align: right;">10</td>
+<td style="vertical-align: top; text-align: right;">5</td>
+<td style="vertical-align: top; text-align: right;">1</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><span style="font-family: monospace;">Items sampled from each&nbsp;batch</span></td>
+<td style="vertical-align: top; text-align: right;">50</td>
+<td style="vertical-align: top; text-align: right;">50</td>
+<td style="vertical-align: top; text-align: right;">20</td>
+<td style="vertical-align: top; text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+<p style="margin-top: 0px; margin-bottom: 0px;"></p>
+<p style="margin-top: 0px; margin-bottom: 0px;"><br>
+</p>
+<p style="margin-top: 0px; margin-bottom: 0px;">Generate a dataset from
+the input specification. The dataset will contain an individual file
+for each batch of items. Save each file in the dataset as <span style="font-family: monospace;">ds1.txt,&nbsp; ds2.txt, ...,&nbsp;dsn.txt</span>.
+To create an individual file, decide if it has bad items or not. Run a
+loop for the number of items in the batch. If it is a good batch, just
+write 'g' to the file (one per line) for the total number of items in
+the batch. If it is a bad batch, use a random number generator for the
+input-specified percentage of bad chips: Example - assume the spec is
+that 10% of chips are bad. Generate datasets by generating random
+numbers on [0..99] if 0 .. 9 comes up, add a bad chip (write the char
+'b' to the file), otherwise, add a good chip to the data set (write a
+'g' to the file).</p>
+
+<p style="margin-top: 0px; margin-bottom: 0px;"></p>
+<p style="margin-top: 0px; margin-bottom: 0px;"><span style="font-weight: bold;">Part 1b: </span>Implement
+the Monte Carlo algorithm to determine which of the chip batches are bad.
+It should know how many data sets there are, read them one at a time,
+sample the appropriate number of items, and report good batch or bad
+batch. Your output should look like the output below.</p>
+<p><br> <span style="font-weight: bold;">Example output:</span><br> <br> <span style="font-family: monospace;">Simulation 1: </span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp;&nbsp;
+Number of batches of
+items:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+100</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp;&nbsp;
+Number of items in each
+batch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2000</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp;&nbsp; Percentage of batches containing bad items&nbsp;&nbsp;&nbsp;&nbsp; 24%</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp;&nbsp; Percentage of items that are bad in a bad set&nbsp;&nbsp; 7%</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp;&nbsp;
+Items sampled from each
+set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+30</span><br style="font-family: monospace;"> <br style="font-family: monospace;"> <span style="font-family: monospace;">Generating data sets:</span></p>
+<p><span style="font-family: monospace;"> &nbsp; Create bad set batch #&nbsp; 0, totBad =&nbsp; 158 total =&nbsp; 2000 badpct =&nbsp; 7</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; Create bad set batch #&nbsp; 4, totBad =&nbsp; 133 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch #&nbsp; 8, totBad =&nbsp; 145 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 12, totBad =&nbsp; 122 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 16, totBad =&nbsp; 142 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 20, totBad =&nbsp; 160 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 24, totBad =&nbsp; 148 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 28, totBad =&nbsp; 166 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 32, totBad =&nbsp; 137 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 36, totBad =&nbsp; 145 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 40, totBad =&nbsp; 123 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 44, totBad =&nbsp; 123 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 48, totBad =&nbsp; 165 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 52, totBad =&nbsp; 142 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 56, totBad =&nbsp; 117 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 60, totBad =&nbsp; 144 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 64, totBad =&nbsp; 124 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 68, totBad =&nbsp; 152 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 72, totBad =&nbsp; 120 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 76, totBad =&nbsp; 141 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 80, totBad =&nbsp; 158 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 84, totBad =&nbsp; 119 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 88, totBad =&nbsp; 144 total =&nbsp; 2000 badpct =&nbsp; 7<br> &nbsp; Create bad set batch # 92, totBad =&nbsp; 145 total =&nbsp; 2000 badpct =&nbsp; 7</span><span style="font-family: monospace;"></span><span style="font-family: monospace;"></span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; Total bad sets = 24</span><br style="font-family: monospace;"> <br style="font-family: monospace;"> <span style="font-family: monospace;">Analyzing Data Sets:</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #0 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #4 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #12 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #16 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #20 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #24 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #28 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #32 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #36 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #40 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #44 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #48 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #52 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #60 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #64 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #68 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #72 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #76 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #80 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #84 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #88 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;">&nbsp; batch #92 is bad</span><br style="font-family: monospace;"> <span style="font-family: monospace;"><br> Base = 0.930000 exponent = 30</span><br style="font-family: monospace;"> <span style="font-family: monospace;">P(failure to detect bad batch) = 0.113367</span><span style="font-family: monospace;"></span><br style="font-family: monospace;"> <span style="font-family: monospace;">Percentage of bad batches actually detected =&nbsp; 91.7%</span></p>
+
+<p><span style="font-family: monospace;">Simulation 2: </span><br style="font-family: monospace;">
+ <span style="font-family: monospace;">&nbsp;&nbsp; Number of batches
+of
+items:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+100</span><br style="font-family: monospace;">
+ <span style="font-family: monospace;">&nbsp;&nbsp; Number of items in
+each
+batch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2000</span><br style="font-family: monospace;">
+ <span style="font-family: monospace;">&nbsp;&nbsp; Percentage of batches containing bad items&nbsp;&nbsp;&nbsp;&nbsp; 10%</span><br style="font-family: monospace;">
+ <span style="font-family: monospace;">&nbsp;&nbsp; Percentage of items that are bad in a bad set&nbsp; 10%</span><br style="font-family: monospace;">
+ <span style="font-family: monospace;">&nbsp;&nbsp; Items sampled from
+each
+set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+50</span></p>
+<p><span style="font-family: monospace;">. . .<br>
+</span></p>
+<p><br>
+<span style="font-family: monospace;"></span></p>
+<p><strong>&nbsp;Part 2:</strong> A Monte Carlo Simulation. Implement
+the process of&nbsp;converting historical data into the probability of
+occurrence of various outcomes, extracting probability distributions,
+assigning random number intervals, and running a simulation. Assume we
+are dealing with bacteria counts in Escambia bay. Our data might be
+like the following for 100 days of observation:</p>
+<p><span style="font-family: monospace;">100</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+7</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+0-2000: 15</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+2000-4000: 25</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+4000-8000: 20</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+8000-12000: 15</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+12000-18000: 10</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+18000-24000: 10</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+24000-28000: 5</span><br style="font-family: monospace;"><span style="font-family: monospace;">
+ml</span><br>
+</p>
+<br>
+
+<p>The goal will be to read the data, compute the probability
+distribution, carry out a simulation, and predict the expected
+bacterial reading. Data will be in a file entitled <span style="font-family: 'courier new',courier,sans-serif;">readings.txt</span>. The file r<span style="font-family: 'courier new',courier,sans-serif;">eadings.txt</span>
+will first have an integer indicating how many days of data are
+included (100 in the above example) followed by the number of
+categories of data (7 in the above example). This second integer will
+be followed by the textual description of the range of values, a colon
+(:), and then the number of days on which that observation occurred.
+After all the count data, units will be indicated (in this case, ml).
+This part of the program should read these values, simulate&nbsp;a
+user-specified number of days (see below), and compute and display the
+expected value from the analytical model.</p>
+<p></p>
+<p><strong>Output from this data</strong> should look like this:</p><span style="font-family: monospace;">Simulated days: 100</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">Number of categories: 7</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">Ranges and occurrences in each range:</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">0-2000: 15</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">2000-4000: 25</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">4000-8000: 20</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">8000-12000: 15</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">12000-18000: 10</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">18000-24000: 10</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">24000-28000: 5</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">Units of measure: ml</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">Analytical model: 8500.0. Expected value is in the 8000-12000/ml range.</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">Simulation: 8001.5. Expected value is in the 8000-12000ml range.</span><br>
+<p><strong>Note:</strong> Since the categories have values that are on
+a range, we will need to use category mean values for the analytical
+model and simulation. <br>
+</p>A quick look at tokenizing in C++:<br>
+<br>
+<span style="font-family: monospace;">#include&lt;vector&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">#include&lt;iostream&gt;<br>
+#include&lt;sstream&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">using namespace std;</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">int main() {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; string a_string = "Hello world how are you";</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; stringstream ss(a_string);</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; vector&lt;string&gt; tokens;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; string temp_str;</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; while(getline(ss, temp_str, ' ')){</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tokens.push_back(temp_str);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; for(int i = 0; i &lt; tokens.size(); i++) {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; tokens[i] &lt;&lt; endl;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">}</span><br>
+<br>
+<p><strong>Inputs and Outputs</strong><br><br>When your program
+runs,&nbsp;it will first automatically generate the data sets for part
+1, carry out the simulation, and report results. Then, it will read the
+<span style="font-family: 'courier new',courier,sans-serif;">readings.txt</span>
+for part 2. It will use the number of days from the readings.txt as the
+number of days to simulate, so NO user interaction should be needed. It
+will also calculate and report the expected value of the analytical
+model. ALL results will go to the console. Note that different data
+(different numbers of categories and percents) in readings.txt should
+work properly.&nbsp;</p>
+
+<p><strong>Deliverables</strong></p>
+<p><span style="font-family: 'times new roman',times,serif;">You will submit the following for this project:&nbsp;</span><br><span style="font-family: 'times new roman',times,serif;">1. A UML diagram</span><br><span style="font-family: 'times new roman',times,serif;">2. A User's manual that describes how to set up and run your program.</span><br><span style="font-family: 'times new roman',times,serif;">3. Your source code in C++.</span><br><span style="font-family: 'times new roman',times,serif;">4. A makefile for the project&nbsp;</span></p>
+<p>&nbsp;<strong>Submission Requirements</strong><strong>:&nbsp;</strong>&nbsp;</p>
+<p>1. Compile and run your program one last time before submitting it. Your program must run with gcc in the Linux lab.<br>2.
+Place every file in your submission in a SINGLE DIRECTORY named
+&lt;last name&gt;&lt;first initial&gt;. For instance,
+I would create directory:&nbsp; coffeyj&nbsp; for project 4.<br>3.
+zip that FOLDER into a .zip file with the SAME NAME. This means that
+inside your zip file, you will have exactly one folder (from the
+example: coffeyj) showing at the top level. Inside that folder will
+be ALL the files in your project.<br>4.&nbsp;<em>DO NOT</em>&nbsp;make
+separate folders for documentation and source files (or anything else)
+inside the main folder. Having such a setup simply necessitates more
+navigation time to get where we need to go to grade.<br>5. Any needed input files should be in the top-level folder along with the source code.<br>6.
+MacOS users - remove the _MacOS_ utility folder before you zip up the
+file. If you cannot, delete it from the archive once the archive is
+created. It just takes up space and is not needed for anything we do
+with your submissions.<br>7. Login to Canvas<a href="http://elearning.uwf.edu/">.</a>&nbsp;Select our course.<br>9. Go to Assignments and select the appropriate project. Click the Submit button.<br>10.
+Upload your zip file. Check to insure that the file was uploaded.
+ALWAYS give yourself enough time. If you are trying to submit at
+11:57pm on your machine, the clock might be off and the dropbox might
+already be closed.</p>
+<p>Please review the policy on ACADEMIC MISCONDUCT. This is an&nbsp;<em>individual assignment.</em></p>
+</body></html>
