@@ -1,25 +1,28 @@
 #ifndef DATASET_HPP
 #define DATASET_HPP
+#include <stdlib.h>
+#include <time.h>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <stdlib.h>
-#include <time.h>
 #include <iostream>
+#include <math.h>
 class DataSet {
     private:
         int numBatches;
         int numItems;
-        float badBatchPercentage;
-        float badItemPercentage;
+        float percentBadBatch;
+        float percentBadItem;
         int sampleSize;
     public:
         DataSet();
-        void LoadInput(int num);
-        bool CreateDataSet(int num);
-        bool ReadDataSet(int num);
+        void LoadTestInput(std::string fileName);
+        void PrintTestInput();
+        bool CreateBatch(std::string fileName);
+        int GenerateBatches();
+        bool CheckBatch(std::string fileName);
+        int AnalyzeBatches();
         void RunSimulation();
-        void DeleteDataSets(int num);
-        //
+        void DeleteBatches();
 };
 #endif

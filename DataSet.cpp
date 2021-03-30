@@ -1,103 +1,116 @@
 #include "DataSet.hpp"
 DataSet::DataSet() {
     srand(time(NULL));
+    this->numBatches = 200;
+    this->numItems = 1000;
+    this->percentBadBatch = 25;
+    this->percentBadItem = 15;
+    this->sampleSize = 50;
 }
-void DataSet::LoadInput(int num) {
-    std::string fileName = "t" + std::to_string(num) + ".txt";
+void DataSet::LoadTestInput(std::string fileName) {
     std::ifstream inFile(fileName);
     if (inFile.is_open()) {
-        std::string line = "";
+        std::string line;
         std::string content = "";
         while (std::getline(inFile, line)) {
             content = content + line + " ";
         }
         std::stringstream ss(content);
-        ss >> numBatches >> numItems >> badBatchPercentage >> badItemPercentage >> sampleSize;
+        ss >> numBatches >> numItems >> percentBadBatch >> percentBadItem >> sampleSize;
+        PrintTestInput();
         inFile.close();
-        std::cout << "Number of batches of items: " << numBatches << std::endl;
-        std::cout << "Number of items in each batch " << numItems << std::endl;
-        std::cout << "Percentage of batches containing bad items " << badBatchPercentage << "%" <<  std::endl;
-        std::cout << "Percentage of items that are bad in a bad set " << badItemPercentage << "%" <<  std::endl;
-        std::cout << "Items sampled from each set " << sampleSize << std::endl;
     } else {
-        perror("Error opening input file");
-        exit(EXIT_FAILURE);
+        perror("Error loading test input");
+        exit(EXIT_FAILURE); 
     }
 }
-bool DataSet::CreateDataSet(int num) {
-    std::string fileName = "ds" + std::to_string(num) + ".txt";
+void DataSet::PrintTestInput() {
+    std::cout << "Number of batches of items: " << numBatches << std::endl;
+    std::cout << "Number of items in each batch: " << numItems << std::endl;
+    std::cout << "Percentage of batches containing bad items: " << percentBadBatch << "%" <<  std::endl;
+    std::cout << "Percentage of items that are bad in a bad set: " << percentBadItem << "%" <<  std::endl;
+    std::cout << "Items sampled from each set: " << sampleSize << std::endl;  
+}
+bool DataSet::CreateBatch(std::string fileName) {
     std::ofstream outFile(fileName);
     if (outFile.is_open()) {
-        if ((rand() % 100+1) <= badBatchPercentage) {
+        if ((rand() % 100 + 1) <= percentBadBatch) {
             for (int i = 0; i < numItems; i++) {
-                if ((rand() % 100+1) <= badItemPercentage) {
+                if ((rand() % 100 + 1) <= percentBadItem) {
                     outFile << "b" << std::endl;
                 } else {
                     outFile << "g" << std::endl;
                 }   
             }
-            std::cout << "Created bad batch # " << num << std::endl;
-            return false;
+            return true;
         } else {
             for (int i = 0; i < numItems; i++) {
                 outFile << "g" << std::endl;
             }
-        } 
+        }
         outFile.close();
-        return true;
+        return false;
     } else {
-        perror("Error opening output file");
+        perror("Error creating batch");
         exit(EXIT_FAILURE);
     }
 }
-bool DataSet::ReadDataSet(int num) {
-    std::string fileName = "ds" + std::to_string(num) + ".txt";
-    std::ifstream inFile(fileName);
-    if (inFile.is_open()) {
-        int i = 0;
-        std::string line;
-        while (getline(inFile, line) && i++ < sampleSize) {
-            if (line.compare("b") == 0) {
-                return false;
-            }
-        }
-        inFile.close();
-        return true;
-    } else {
-        perror("Error opening input file");
-        exit(EXIT_FAILURE);
-    }  
-}
-void DataSet::RunSimulation() {
+int DataSet::GenerateBatches() {
+    std::cout << "\nGenerating data sets:" << std::endl;
     int badBatches = 0;
-    std::cout << "Generating data sets:" << std::endl;
     for (int i = 0; i < numBatches; i++) {
-        if (CreateDataSet(i + 1) == false) {
+        if(CreateBatch("ds" + std::to_string(i + 1) + ".txt")) {
+            std::cout << "Created bad set batch #" << i + 1 << std::endl;
             badBatches++;
         }
     }
     std::cout << "Total bad sets = " << badBatches << std::endl;
-
-    std::cout << "Analyzing data sets:" << std::endl;
-    int foundBadBatches = 0;
+    return badBatches;
+}
+bool DataSet::CheckBatch(std::string fileName) {
+    std::ifstream inFile(fileName);
+    if (inFile.is_open()) {
+        int tries = 0;
+        std::string line;
+        while (getline(inFile, line) && tries++ < sampleSize) {
+            if (line.compare("b") == 0) {
+                return true;
+            }
+        }
+        inFile.close();
+        return false;
+    } else {
+        perror("Error checking batch");
+        exit(EXIT_FAILURE);  
+    }
+}
+int DataSet::AnalyzeBatches() {
+    std::cout << "\nAnalyzing data sets:" << std::endl;
+    int badBatches = 0;
     for (int i = 0; i < numBatches; i++) {
-        if (ReadDataSet(i + 1) == false) {
-            foundBadBatches++;
-            std::cout << "Batch #" + std::to_string(i+1) + " is bad" << std::endl;
+        if(CheckBatch("ds" + std::to_string(i + 1) + ".txt")) {
+            std::cout << "Batch #" << i + 1 << " is bad" << std::endl;
+            badBatches++;
         }
     }
-
-    std::cout << "Base = " + std::to_string((1 - ((float)badItemPercentage/10.0))) << " exponent = " << sampleSize << std::endl;
-    std::cout << "P(failure to detect bad batch) = " << "?" << std::endl;
-    std::cout << "Percentage of bad batches actually detected = " << (((float)foundBadBatches/(float)badBatches) * 100.0) << "%" << std::endl;
-
-    DeleteDataSets(numBatches);
+    std::cout << "Bad sets found = " << badBatches << std::endl;
+    return badBatches;
 }
-void DataSet::DeleteDataSets(int num) {
-    for (int i = 0; i < num; i ++) {
-        const char* c = ("ds" + std::to_string(i + 1) + ".txt").c_str();
-        if (remove(c) != 0) {
-            perror("Error deleting file");
-        }
+void DataSet::RunSimulation() {
+    int actualBadBatches = GenerateBatches();
+    int foundBadBatches = AnalyzeBatches();
+
+    float base = (1.0 - (float)percentBadItem/100.0);
+    float percentFailToDetect = pow(base, sampleSize);
+    float percentBadDetected = ((float)foundBadBatches/(float)actualBadBatches) * 100.0;
+
+    std::cout << "\nBase: " << base << " ";
+    std::cout << "exponent: " << sampleSize << std::endl;
+    std::cout << "P(failure to detect bad batch): " << percentFailToDetect << std::endl;
+    std::cout << "Percentage of bad batches actually detected: " << percentBadDetected << "%" << std::endl;
+}
+void DataSet::DeleteBatches() {
+    for (int i = 0; i < numBatches; i++) {
+        remove(("ds" + std::to_string(i + 1) + ".txt").c_str());
     }
 }
