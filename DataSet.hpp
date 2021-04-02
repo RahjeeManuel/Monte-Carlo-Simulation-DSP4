@@ -1,5 +1,6 @@
 #ifndef DATASET_HPP
 #define DATASET_HPP
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string>
