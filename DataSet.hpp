@@ -14,16 +14,16 @@ class DataSet {
         int numItems;
         float percentBadBatch;
         float percentBadItem;
-        int sampleSize;
+        int sampleSize;        
     public:
         DataSet();
         void LoadTestInput(std::string fileName);
         void PrintTestInput();
-        bool CreateBatch(std::string fileName);
+        bool CreateBatch(std::string fileName);     //creates batch by filename
         int GenerateBatches();
-        bool CheckBatch(std::string fileName);
+        bool CheckBatch(std::string fileName);      //checks batch of errors by filename
         int AnalyzeBatches();
         void RunSimulation();
-        void DeleteBatches();
+        void DeleteBatches();                       //deletes all batches
 };
 #endif

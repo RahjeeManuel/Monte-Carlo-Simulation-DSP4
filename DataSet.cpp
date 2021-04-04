@@ -1,11 +1,6 @@
 #include "DataSet.hpp"
 DataSet::DataSet() {
     srand(time(NULL));
-    this->numBatches = 200;
-    this->numItems = 1000;
-    this->percentBadBatch = 25;
-    this->percentBadItem = 15;
-    this->sampleSize = 50;
 }
 void DataSet::LoadTestInput(std::string fileName) {
     std::ifstream inFile(fileName);
@@ -59,7 +54,7 @@ int DataSet::GenerateBatches() {
     std::cout << "\nGenerating data sets:" << std::endl;
     int badBatches = 0;
     for (int i = 0; i < numBatches; i++) {
-        if(CreateBatch("ds" + std::to_string(i + 1) + ".txt")) {
+        if(CreateBatch("ds" + std::to_string(i + 1) + ".txt")) {    //iterates through all batches
             std::cout << "Created bad set batch #" << i + 1 << std::endl;
             badBatches++;
         }
@@ -88,7 +83,7 @@ int DataSet::AnalyzeBatches() {
     std::cout << "\nAnalyzing data sets:" << std::endl;
     int badBatches = 0;
     for (int i = 0; i < numBatches; i++) {
-        if(CheckBatch("ds" + std::to_string(i + 1) + ".txt")) {
+        if(CheckBatch("ds" + std::to_string(i + 1) + ".txt")) { //iterates through all batches
             std::cout << "Batch #" << i + 1 << " is bad" << std::endl;
             badBatches++;
         }
